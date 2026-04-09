@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Joshua William | Art Portfolio</title>
+  <!-- Google Fonts: elegant sans + playful mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0a0c12;
+      font-family: 'Inter', sans-serif;
+      color: #eceff4;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* custom cursor hint (subtle) */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,215,150,0.08) 0%, transparent 60%);
+      transition: background 0.05s linear;
+    }
+
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1e2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f2c94c;
+      border-radius: 8px;
+    }
+
+    /* main layout */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    /* header / nav */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid rgba(242, 201, 76, 0.25);
+      padding-bottom: 1.5rem;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f2c94c, #f29b4c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Space Mono', monospace;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: #b9c7d9;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s ease;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover {
+      color: #f2c94c;
+    }
+
+    /* intro */
+    .intro {
+      margin-bottom: 4rem;
+      max-width: 680px;
+    }
+    .intro h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(145deg, #ffffff, #d9d2b0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    .intro p {
+      font-size: 1.2rem;
+      color: #9aa8bf;
+      border-left: 3px solid #f2c94c;
+      padding-left: 1.2rem;
+    }
+
+    /* filter bar — unique gallery interaction */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+      justify-content: center;
+      border-bottom: 1px dashed #2a2e3f;
+      padding-bottom: 1.5rem;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid #2e3440;
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #cbd5e6;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(2px);
+    }
+    .filter-btn i {
+      margin-right: 6px;
+    }
+    .filter-btn.active {
+      background: #f2c94c;
+      border-color: #f2c94c;
+      color: #0a0c12;
+      box-shadow: 0 0 12px rgba(242, 201, 76, 0.3);
+    }
+    .filter-btn:hover:not(.active) {
+      border-color: #f2c94c;
+      color: #f2c94c;
+    }
+
+    /* gallery grid — organic masonry feel with staggered aspect */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 4rem;
+    }
+    .art-card {
+      background: rgba(20, 24, 36, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(242, 201, 76, 0.2);
+      cursor: pointer;
+      transform: translateY(0);
+      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.5);
+    }
+    .art-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(242, 201, 76, 0.6);
+      box-shadow: 0 28px 36px -12px rgba(0,0,0,0.6);
+    }
+    .art-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .art-card:hover .art-img {
+      transform: scale(1.02);
+    }
+    .art-info {
+      padding: 1.2rem 1.2rem 1.4rem;
+    }
+    .art-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .art-category {
+      font-size: 0.7rem;
+      font-family: 'Space Mono', monospace;
+      background: rgba(242, 201, 76, 0.2);
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      color: #f2c94c;
+    }
+    .art-description {
+      font-size: 0.85rem;
+      color: #b2bfd6;
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    /* lightbox modal (unique fullscreen experience) */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 10, 18, 0.96);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+    .lightbox.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .lightbox-content {
+      max-width: 85vw;
+      max-height: 85vh;
+      position: relative;
+      animation: fadeScale 0.25s ease;
+    }
+    .lightbox-img {
+      width: auto;
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 32px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+      border: 2px solid rgba(242, 201, 76, 0.5);
+    }
+    .lightbox-caption {
+      position: absolute;
+      bottom: -2.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #f2c94c;
+      background: rgba(0,0,0,0.5);
+      padding: 0.4rem;
+      border-radius: 60px;
+      width: fit-content;
+      margin: 0 auto;
+      backdrop-filter: blur(4px);
+    }
+    .close-lightbox {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      font-size: 2rem;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    @keyframes fadeScale {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* about section */
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      background: linear-gradient(145deg, #11151f, #0c0f18);
+      border-radius: 48px;
+      padding: 2.5rem;
+      margin: 3rem 0;
+      border: 1px solid rgba(242,201,76,0.2);
+    }
+    .about-text {
+      flex: 2;
+    }
+    .about-text h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .about-text p {
+      color: #b7c3da;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .about-signature {
+      font-family: 'Space Mono', monospace;
+      margin-top: 1.5rem;
+      color: #f2c94c;
+    }
+    .stats {
+      flex: 1;
+      background: #0b0e17;
+      border-radius: 2rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #f2c94c;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* contact */
+    .contact {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid #2a2e3f;
+      margin-top: 2rem;
+    }
+    .contact a {
+      color: #f2c94c;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: 0.2s;
+    }
+    .contact a:hover {
+      text-shadow: 0 0 6px #f2c94c;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #5a657c;
+      padding-top: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 1.2rem;
+      }
+      .hero {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .intro h1 {
+        font-size: 2.4rem;
+      }
+      .filter-bar {
+        gap: 0.5rem;
+      }
+      .filter-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hero">
+    <div class="logo">✦ Joshua William <span style="font-size: 1rem; color:#f2c94c;">| portfolio</span></div>
+    <div class="nav-links">
+      <a href="#" data-nav="gallery">gallery</a>
+      <a href="#" data-nav="about">about</a>
+      <a href="#" data-nav="contact">contact</a>
+    </div>
+  </div>
+
+  <div class="intro" id="introSection">
+    <h1>where silence becomes<br>visible matter</h1>
+    <p>Original digital & traditional works — immersive storytelling through texture, light, and emotion.</p>
+  </div>
+
+  <!-- dynamic filter bar: categories derived from art pieces -->
+  <div class="filter-bar" id="filterBar"></div>
+
+  <!-- gallery grid injected via js -->
+  <div class="gallery" id="galleryGrid"></div>
+
+  <!-- about + studio ethos -->
+  <div class="about-section" id="aboutSection">
+    <div class="about-text">
+      <h2>studio ethos</h2>
+      <p>My practice explores the fragile dialogue between organic forms and digital frontiers. Each piece is a meditation on memory, imperfection, and the poetry of erosion. Based between Berlin and Reykjavik, I work with charcoal, acrylics, and algorithmic brushes — always seeking the uncanny intersection of hand and code.</p>
+      <p>Selected exhibitions: *Matter of Time* (Reykjavik Art Museum), *Phantom Terrains* (Online/ Berlin Biennale). Commissions and collaborations welcome.</p>
+      <div class="about-signature">— L. Vermillion, b. 1991</div>
+    </div>
+    <div class="stats">
+      <div class="stat-number">12+</div>
+      <div>exhibitions</div>
+      <div class="stat-number" style="margin-top:1rem;">∞</div>
+      <div>curious minds</div>
+      <div class="stat-number" style="margin-top:1rem;">'24</div>
+      <div>award finalist</div>
+    </div>
+  </div>
+
+  <div class="contact" id="contactSection">
+    <h3 style="margin-bottom:1rem;">connect & commission</h3>
+    <a href="#"><i class="fab fa-instagram"></i> @artifact.studio</a>
+    <a href="#"><i class="far fa-envelope"></i> hello@artifact.art</a>
+    <a href="#"><i class="fab fa-behance"></i> behance/artifact</a>
+  </div>
+  <footer>
+    <span>© 2025 — all original artworks, simulated identity. immersive portfolio concept.</span>
+  </footer>
+</div>
+
+<!-- lightbox modal -->
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-content">
+    <button class="close-lightbox" id="closeLightboxBtn">&times;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="enlarged artwork">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script>
+  // ---- ART COLLECTION (unique artworks with categories, titles, descriptions) ----
+  const artworks = [
+    {
+      id: 1,
+      title: "Whispers of Obsidian",
+      category: "digital",
+      description: "Generative composition, 4K looping narrative — volcanic textures meet neural brushstrokes.",
+      image: "https://picsum.photos/id/104/500/400",   // landscape with dramatic rock
+      alt: "abstract obsidian landscape"
+    },
+    {
+      id: 2,
+      title: "Fossilized Memory",
+      category: "mixed media",
+      description: "Charcoal & resin on canvas, 80x100cm — layers of erased time.",
+      image: "https://picsum.photos/id/96/500/400",
+      alt: "mixed media monochrome"
+    },
+    {
+      id: 3,
+      title: "Electric Pollen",
+      category: "digital",
+      description: "Digital painting, vibrant particles floating in electromagnetic fields.",
+      image: "https://picsum.photos/id/29/500/400",
+      alt: "colorful digital pollen"
+    },
+    {
+      id: 4,
+      title: "The Geometry of Grief",
+      category: "drawing",
+      description: "Ink and graphite, fragmented architecture of emotion. 2023 series.",
+      image: "https://picsum.photos/id/42/500/400",
+      alt: "ink drawing abstract"
+    },
+    {
+      id: 5,
+      title: "Lava Lullabies",
+      category: "painting",
+      description: "Oil on linen, deep crimson and gold — eruption as tenderness.",
+      image: "https://picsum.photos/id/22/500/400",
+      alt: "volcanic painting"
+    },
+    {
+      id: 6,
+      title: "Reverie Engine",
+      category: "mixed media",
+      description: "Collage + digital intervention, archival print on handmade paper.",
+      image: "https://picsum.photos/id/169/500/400",
+      alt: "dream collage"
+    },
+    {
+      id: 7,
+      title: "Myth of the Seam",
+      category: "digital",
+      description: "Algorithmic textile simulation, infinite weave of data threads.",
+      image: "https://picsum.photos/id/36/500/400",
+      alt: "digital textile"
+    },
+    {
+      id: 8,
+      title: "Night Soil Bloom",
+      category: "painting",
+      description: "Acrylic & pastel on wood, 70x90cm — growth in decay.",
+      image: "https://picsum.photos/id/127/500/400",
+      alt: "bloom painting"
+    }
+  ];
+
+  // extract unique categories for filter buttons
+  function getUniqueCategories() {
+    const cats = artworks.map(a => a.category);
+    return ['all', ...new Set(cats)];
+  }
+
+  let currentFilter = 'all';
+
+  // render gallery based on current filter
+  function renderGallery() {
+    const galleryContainer = document.getElementById('galleryGrid');
+    const filtered = currentFilter === 'all' 
+      ? artworks 
+      : artworks.filter(art => art.category === currentFilter);
+    
+    if(filtered.length === 0) {
+      galleryContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">✨ no pieces in this realm — explore another category ✨</div>`;
+      return;
+    }
+    
+    galleryContainer.innerHTML = filtered.map(art => `
+      <div class="art-card" data-id="${art.id}">
+        <img class="art-img" src="${art.image}" alt="${art.alt}" loading="lazy">
+        <div class="art-info">
+          <div class="art-title">
+            <span>${art.title}</span>
+            <span class="art-category">${art.category}</span>
+          </div>
+          <div class="art-description">${art.description}</div>
+        </div>
+      </div>
+    `).join('');
+    
+    // attach click event listeners to each card for lightbox
+    document.querySelectorAll('.art-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        // prevent bubbling if inner elements but it's fine
+        const id = parseInt(card.getAttribute('data-id'));
+        const artwork = artworks.find(a => a.id === id);
+        if(artwork) openLightbox(artwork);
+      });
+    });
+  }
+  
+  // lightbox logic
+  const lightboxEl = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  
+  function openLightbox(art) {
+    lightboxImg.src = art.image;
+    lightboxCaption.innerHTML = `${art.title} — ${art.category} / ${art.description}`;
+    lightboxEl.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeLightbox() {
+    lightboxEl.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  // dynamic filter buttons creation
+  function buildFilterButtons() {
+    const filterBar = document.getElementById('filterBar');
+    const categories = getUniqueCategories();
+    filterBar.innerHTML = categories.map(cat => `
+      <button class="filter-btn ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}">
+        <i class="fas ${cat === 'all' ? 'fa-layer-group' : (cat === 'digital' ? 'fa-laptop-code' : (cat === 'painting' ? 'fa-palette' : (cat === 'drawing' ? 'fa-pencil-ruler' : 'fa-object-group')))}"></i>
+        ${cat === 'all' ? 'ALL WORKS' : cat.toUpperCase()}
+      </button>
+    `).join('');
+    
+    // add event listeners
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const filterValue = btn.getAttribute('data-filter');
+        if(filterValue === currentFilter) return;
+        currentFilter = filterValue;
+        // update active state UI
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGallery();
+        // optional smooth scroll to gallery after filter (gentle)
+        document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+  
+  // navigation smooth scroll
+  function setupNav() {
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('data-nav');
+        if(target === 'gallery') {
+          document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if(target === 'about') {
+          document.getElementById('aboutSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if(target === 'contact') {
+          document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+  }
+  
+  // custom cursor effect for dynamic background radial (subtle)
+  function initCursorGlow() {
+    document.body.addEventListener('mousemove', (e) => {
+      const x = e.clientX / window.innerWidth * 100;
+      const y = e.clientY / window.innerHeight * 100;
+      document.body.style.setProperty('--x', `${x}%`);
+      document.body.style.setProperty('--y', `${y}%`);
+    });
+  }
+  
+  // randomize masonry-like feel: just extra touch
+  // (no extra library, but gallery css grid already flexible)
+  
+  // add a lazy preload and also add extra unique "spotlight" effect on load
+  function addArtworkStats() {
+    // just dynamic additional flavor: update about stats with total pieces count
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if(statNumbers.length) {
+      // find the first .stat-number showing pieces? Actually modify stats to show piece count
+      // but no need to break design - we update last one maybe optional but nice.
+      const totalWorksSpan = document.createElement('div');
+      // subtle but keep original integrity: add little extra flair in existing stats area:
+      const statsDiv = document.querySelector('.stats');
+      if(statsDiv && !statsDiv.querySelector('.extra-piece-count')) {
+        const pieceInfo = document.createElement('div');
+        pieceInfo.style.marginTop = '1rem';
+        pieceInfo.innerHTML = `<span style="color:#f2c94c; font-weight:bold;">${artworks.length}</span> original pieces`;
+        pieceInfo.classList.add('extra-piece-count');
+        statsDiv.appendChild(pieceInfo);
+      }
+    }
+  }
+  
+  // scroll reveal animation (simple)
+  function observeCards() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.art-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.4s ease';
+      observer.observe(card);
+    });
+  }
+  
+  // after rendering re-observe
+  const originalRender = renderGallery;
+  renderGallery = function() {
+    originalRender();
+    setTimeout(() => {
+      document.querySelectorAll('.art-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        // re-run observer
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        obs.observe(card);
+      });
+    }, 20);
+  };
+  
+  // event listener for closing lightbox
+  function bindLightboxEvents() {
+    const closeBtn = document.getElementById('closeLightboxBtn');
+    closeBtn.addEventListener('click', closeLightbox);
+    lightboxEl.addEventListener('click', (e) => {
+      if(e.target === lightboxEl) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && lightboxEl.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  }
+  
+  // initialise all
+  function init() {
+    buildFilterButtons();
+    renderGallery();
+    setupNav();
+    initCursorGlow();
+    bindLightboxEvents();
+    addArtworkStats();
+    // small style: ensure hero image placeholders from picsum but they are beautiful placeholder
+    // add additional uniqueness: decorative line
+    const styleDecor = document.createElement('style');
+    styleDecor.textContent = `.art-card { transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1); } .filter-btn i { margin-right: 5px; }`;
+    document.head.appendChild(styleDecor);
+  }
+  
+  init();
+</script>
+</body>
+</html>
