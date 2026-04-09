@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Joshua William | Art Portfolio</title>
-  <!-- Google Fonts: elegant sans + playful mono -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
+  <title>Motion Canvas | Animation Portfolio</title>
+  <!-- Google Fonts: dynamic and modern -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -16,696 +16,681 @@
     }
 
     body {
-      background-color: #0a0c12;
-      font-family: 'Inter', sans-serif;
-      color: #eceff4;
-      line-height: 1.4;
-      scroll-behavior: smooth;
+      background: #03020a;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #f0f0f8;
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* custom cursor hint (subtle) */
-    body::before {
-      content: '';
+    /* custom cursor trail effect (canvas overlay for animated vibe) */
+    #cursorCanvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,215,150,0.08) 0%, transparent 60%);
-      transition: background 0.05s linear;
+      z-index: 999;
     }
 
-    /* custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1a1e2a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #f2c94c;
-      border-radius: 8px;
-    }
-
-    /* main layout */
+    /* main container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 2rem 2rem 4rem;
+      position: relative;
+      z-index: 2;
     }
 
-    /* header / nav */
+    /* header / navigation */
     .hero {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 3rem;
-      border-bottom: 1px solid rgba(242, 201, 76, 0.25);
+      margin-bottom: 4rem;
+      border-bottom: 1px solid rgba(255, 90, 150, 0.3);
       padding-bottom: 1.5rem;
     }
     .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #f2c94c, #f29b4c);
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(125deg, #ff5a96, #ffb347, #6c5ce7);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      font-family: 'Space Mono', monospace;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 2.2rem;
     }
     .nav-links a {
-      color: #b9c7d9;
+      color: #bfc9e6;
       text-decoration: none;
       font-weight: 500;
-      transition: 0.2s ease;
       font-size: 0.9rem;
-      letter-spacing: 0.3px;
+      transition: 0.25s;
+      letter-spacing: 1px;
     }
     .nav-links a:hover {
-      color: #f2c94c;
+      color: #ffb347;
+      text-shadow: 0 0 6px #ffb347;
     }
 
-    /* intro */
+    /* intro with animated headline */
     .intro {
-      margin-bottom: 4rem;
-      max-width: 680px;
+      margin-bottom: 5rem;
+      position: relative;
     }
-    .intro h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      line-height: 1.2;
-      background: linear-gradient(145deg, #ffffff, #d9d2b0);
+    .glow-text {
+      font-size: 4.2rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff, #ffb8d0, #a56eff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
-    .intro p {
-      font-size: 1.2rem;
-      color: #9aa8bf;
-      border-left: 3px solid #f2c94c;
-      padding-left: 1.2rem;
+    .typed-container {
+      font-size: 1.4rem;
+      color: #bdc4f0;
+      border-left: 3px solid #ff5a96;
+      padding-left: 1.5rem;
+      margin-top: 1rem;
+    }
+    .highlight {
+      color: #ffb347;
+      font-weight: 600;
     }
 
-    /* filter bar — unique gallery interaction */
+    /* filter bar for animation categories */
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 3rem;
+      gap: 1rem;
       justify-content: center;
-      border-bottom: 1px dashed #2a2e3f;
-      padding-bottom: 1.5rem;
+      margin: 2rem 0 3rem;
     }
-    .filter-btn {
-      background: transparent;
-      border: 1px solid #2e3440;
-      padding: 0.6rem 1.4rem;
+    .filter-chip {
+      background: rgba(20, 16, 40, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 90, 150, 0.4);
+      padding: 0.6rem 1.6rem;
       border-radius: 60px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
+      font-family: 'Space Grotesk', monospace;
       font-weight: 500;
-      color: #cbd5e6;
+      font-size: 0.85rem;
+      color: #e2e8ff;
       cursor: pointer;
-      transition: all 0.25s;
-      backdrop-filter: blur(2px);
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
     }
-    .filter-btn i {
-      margin-right: 6px;
+    .filter-chip i {
+      margin-right: 8px;
     }
-    .filter-btn.active {
-      background: #f2c94c;
-      border-color: #f2c94c;
-      color: #0a0c12;
-      box-shadow: 0 0 12px rgba(242, 201, 76, 0.3);
+    .filter-chip.active {
+      background: #ff5a96;
+      border-color: #ff5a96;
+      color: #0a0418;
+      box-shadow: 0 0 14px rgba(255, 90, 150, 0.5);
     }
-    .filter-btn:hover:not(.active) {
-      border-color: #f2c94c;
-      color: #f2c94c;
+    .filter-chip:hover:not(.active) {
+      border-color: #ffb347;
+      color: #ffb347;
     }
 
-    /* gallery grid — organic masonry feel with staggered aspect */
+    /* gallery grid — animation showcase */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 2rem;
       margin: 2rem 0 4rem;
     }
-    .art-card {
-      background: rgba(20, 24, 36, 0.7);
-      backdrop-filter: blur(4px);
-      border-radius: 28px;
+    .anim-card {
+      background: rgba(12, 10, 26, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      border: 1px solid rgba(242, 201, 76, 0.2);
+      transition: all 0.4s cubic-bezier(0.2, 0.95, 0.4, 1.1);
+      border: 1px solid rgba(255, 100, 150, 0.2);
       cursor: pointer;
       transform: translateY(0);
-      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.5);
     }
-    .art-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(242, 201, 76, 0.6);
-      box-shadow: 0 28px 36px -12px rgba(0,0,0,0.6);
+    .anim-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      border-color: rgba(255, 179, 71, 0.7);
+      box-shadow: 0 30px 40px -15px rgba(0,0,0,0.6);
     }
-    .art-img {
+    .video-wrapper {
+      position: relative;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
     }
-    .art-card:hover .art-img {
+    .anim-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .anim-card:hover .anim-video {
       transform: scale(1.02);
     }
-    .art-info {
+    .play-overlay {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      color: #ffb347;
+      font-weight: bold;
+      pointer-events: none;
+    }
+    .card-info {
       padding: 1.2rem 1.2rem 1.4rem;
     }
-    .art-title {
+    .card-title {
+      font-size: 1.3rem;
       font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: -0.2px;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
     }
-    .art-category {
+    .card-cat {
       font-size: 0.7rem;
-      font-family: 'Space Mono', monospace;
-      background: rgba(242, 201, 76, 0.2);
-      padding: 0.2rem 0.7rem;
-      border-radius: 20px;
-      color: #f2c94c;
+      background: rgba(255, 90, 150, 0.25);
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-family: monospace;
+      color: #ffb6d0;
     }
-    .art-description {
+    .card-desc {
       font-size: 0.85rem;
-      color: #b2bfd6;
+      color: #b7c2e8;
       margin-top: 0.5rem;
       line-height: 1.4;
     }
 
-    /* lightbox modal (unique fullscreen experience) */
-    .lightbox {
+    /* lightbox / video modal for full animation preview */
+    .modal {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(8, 10, 18, 0.96);
-      backdrop-filter: blur(12px);
+      background: rgba(3, 2, 15, 0.96);
+      backdrop-filter: blur(20px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
+      z-index: 3000;
       visibility: hidden;
       opacity: 0;
-      transition: visibility 0.2s, opacity 0.3s ease;
-      cursor: zoom-out;
+      transition: all 0.25s ease;
     }
-    .lightbox.active {
+    .modal.active {
       visibility: visible;
       opacity: 1;
     }
-    .lightbox-content {
+    .modal-content {
       max-width: 85vw;
-      max-height: 85vh;
+      width: 900px;
       position: relative;
-      animation: fadeScale 0.25s ease;
-    }
-    .lightbox-img {
-      width: auto;
-      max-width: 100%;
-      max-height: 85vh;
       border-radius: 32px;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.5);
-      border: 2px solid rgba(242, 201, 76, 0.5);
+      overflow: hidden;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255, 179, 71, 0.5);
     }
-    .lightbox-caption {
-      position: absolute;
-      bottom: -2.5rem;
-      left: 0;
-      right: 0;
+    .modal-video {
+      width: 100%;
+      display: block;
+      background: black;
+    }
+    .modal-caption {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem;
       text-align: center;
-      font-size: 0.9rem;
-      color: #f2c94c;
-      background: rgba(0,0,0,0.5);
-      padding: 0.4rem;
-      border-radius: 60px;
-      width: fit-content;
-      margin: 0 auto;
-      backdrop-filter: blur(4px);
+      color: #ffb347;
+      font-weight: 500;
     }
-    .close-lightbox {
+    .close-modal {
       position: absolute;
       top: -40px;
       right: 0;
-      font-size: 2rem;
-      color: white;
       background: none;
       border: none;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* about / reel section */
+    .reel-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      background: linear-gradient(125deg, #0d0b1a, #08061a);
+      border-radius: 3rem;
+      padding: 2.5rem;
+      margin: 3rem 0;
+      border: 1px solid rgba(255, 90, 150, 0.3);
+    }
+    .reel-text {
+      flex: 1.5;
+    }
+    .reel-text h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin: 1.5rem 0;
+    }
+    .skill-tag {
+      background: rgba(255, 90, 150, 0.2);
+      border-radius: 60px;
+      padding: 0.3rem 1rem;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+    .showreel-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: #ff5a96;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
+      font-weight: bold;
+      color: #03020a;
+      margin-top: 1rem;
       cursor: pointer;
       transition: 0.2s;
     }
-    @keyframes fadeScale {
-      from { transform: scale(0.96); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    /* about section */
-    .about-section {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-      background: linear-gradient(145deg, #11151f, #0c0f18);
-      border-radius: 48px;
-      padding: 2.5rem;
-      margin: 3rem 0;
-      border: 1px solid rgba(242,201,76,0.2);
-    }
-    .about-text {
-      flex: 2;
-    }
-    .about-text h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-    }
-    .about-text p {
-      color: #b7c3da;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-    .about-signature {
-      font-family: 'Space Mono', monospace;
-      margin-top: 1.5rem;
-      color: #f2c94c;
-    }
-    .stats {
+    .stats-mini {
       flex: 1;
-      background: #0b0e17;
+      background: rgba(0,0,0,0.4);
       border-radius: 2rem;
       padding: 1.5rem;
       text-align: center;
     }
-    .stat-number {
-      font-size: 2.8rem;
+    .stat-num {
+      font-size: 2.5rem;
       font-weight: 800;
-      color: #f2c94c;
-      font-family: 'Space Mono', monospace;
+      color: #ffb347;
     }
 
     /* contact */
-    .contact {
+    .contact-links {
       text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid #2a2e3f;
+      padding: 2rem;
+      border-top: 1px solid #2a2740;
       margin-top: 2rem;
     }
-    .contact a {
-      color: #f2c94c;
-      text-decoration: none;
-      font-weight: 500;
-      margin: 0 1rem;
+    .contact-links a {
+      color: #ffb347;
+      margin: 0 1.2rem;
+      font-size: 1.2rem;
       transition: 0.2s;
     }
-    .contact a:hover {
-      text-shadow: 0 0 6px #f2c94c;
-    }
-
     footer {
       text-align: center;
-      font-size: 0.75rem;
-      color: #5a657c;
-      padding-top: 2rem;
+      font-size: 0.7rem;
+      color: #5a5580;
+      margin-top: 1.5rem;
     }
 
-    @media (max-width: 700px) {
-      .container {
-        padding: 1.2rem;
-      }
-      .hero {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .intro h1 {
-        font-size: 2.4rem;
-      }
-      .filter-bar {
-        gap: 0.5rem;
-      }
-      .filter-btn {
-        padding: 0.4rem 1rem;
-        font-size: 0.7rem;
-      }
+    @media (max-width: 760px) {
+      .container { padding: 1.2rem; }
+      .glow-text { font-size: 2.5rem; }
+      .typed-container { font-size: 1rem; }
+      .filter-chip { padding: 0.4rem 1rem; font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
 
+<!-- animated cursor trail canvas -->
+<canvas id="cursorCanvas"></canvas>
+
 <div class="container">
   <div class="hero">
-    <div class="logo">✦ Joshua William <span style="font-size: 1rem; color:#f2c94c;">| portfolio</span></div>
+    <div class="logo">⟡ MOTION//CANVAS</div>
     <div class="nav-links">
-      <a href="#" data-nav="gallery">gallery</a>
-      <a href="#" data-nav="about">about</a>
-      <a href="#" data-nav="contact">contact</a>
+      <a href="#" data-nav="gallery">WORKS</a>
+      <a href="#" data-nav="reel">STUDIO</a>
+      <a href="#" data-nav="contact">CONTACT</a>
     </div>
   </div>
 
-  <div class="intro" id="introSection">
-    <h1>Animation Portfolio</h1>
-    <p>Original digital & traditional works — immersive storytelling through texture, light, and emotion.</p>
+  <div class="intro">
+    <div class="glow-text">frame by frame,<br>stories in motion</div>
+    <div class="typed-container">
+      <span id="dynamicRole"></span>
+      <span class="highlight"> | 2D/3D animation & visual storytelling</span>
+    </div>
   </div>
 
-  <!-- dynamic filter bar: categories derived from art pieces -->
   <div class="filter-bar" id="filterBar"></div>
-
-  <!-- gallery grid injected via js -->
   <div class="gallery" id="galleryGrid"></div>
 
-  <!-- about + studio ethos -->
-  <div class="about-section" id="aboutSection">
-    <div class="about-text">
-      <h2>studio ethos</h2>
-      <p>My practice explores the fragile dialogue between organic forms and digital frontiers. Each piece is a meditation on memory, imperfection, and the poetry of erosion. Based between Berlin and Reykjavik, I work with charcoal, acrylics, and algorithmic brushes — always seeking the uncanny intersection of hand and code.</p>
-      <p>Selected exhibitions: *Matter of Time* (Reykjavik Art Museum), *Phantom Terrains* (Online/ Berlin Biennale). Commissions and collaborations welcome.</p>
-      <div class="about-signature">— L. Vermillion, b. 1991</div>
+  <!-- about + demo reel area -->
+  <div class="reel-section" id="reelSection">
+    <div class="reel-text">
+      <h2>motion & method</h2>
+      <p>Animator & director focused on expressive character animation, experimental loops, and immersive motion design. My work blends traditional keyframes with procedural tools — delivering soulful, rhythmic visuals for music, brands, and independent stories.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">After Effects</span>
+        <span class="skill-tag">Blender</span>
+        <span class="skill-tag">Celaction</span>
+        <span class="skill-tag">Frame-by-frame</span>
+        <span class="skill-tag">Procedural</span>
+      </div>
+      <div class="showreel-link" id="showreelBtn">
+        <i class="fas fa-play-circle"></i> WATCH SHOWREEL 2025
+      </div>
     </div>
-    <div class="stats">
-      <div class="stat-number">12+</div>
-      <div>exhibitions</div>
-      <div class="stat-number" style="margin-top:1rem;">∞</div>
-      <div>curious minds</div>
-      <div class="stat-number" style="margin-top:1rem;">'24</div>
-      <div>award finalist</div>
+    <div class="stats-mini">
+      <div class="stat-num">8+</div>
+      <div>awarded shorts</div>
+      <div class="stat-num" style="margin-top:1rem;">∞</div>
+      <div>frames of joy</div>
+      <div class="stat-num" style="margin-top:1rem;">'24</div>
+      <div>residency @ Animatron</div>
     </div>
   </div>
 
-  <div class="contact" id="contactSection">
-    <h3 style="margin-bottom:1rem;">connect & commission</h3>
-    <a href="#"><i class="fab fa-instagram"></i> @artifact.studio</a>
-    <a href="#"><i class="far fa-envelope"></i> hello@artifact.art</a>
-    <a href="#"><i class="fab fa-behance"></i> behance/artifact</a>
+  <div class="contact-links" id="contactSection">
+    <a href="#"><i class="fab fa-vimeo-v"></i> Vimeo</a>
+    <a href="#"><i class="fab fa-instagram"></i> @motion.canvas</a>
+    <a href="#"><i class="far fa-envelope"></i> hello@motioncanvas.art</a>
+    <a href="#"><i class="fab fa-linkedin-in"></i> Linkedin</a>
   </div>
-  <footer>
-    <span>© 2025 — all original artworks, simulated identity. immersive portfolio concept.</span>
-  </footer>
+  <footer>© 2025 — every frame tells a story. custom animation portfolio</footer>
 </div>
 
-<!-- lightbox modal -->
-<div id="lightbox" class="lightbox">
-  <div class="lightbox-content">
-    <button class="close-lightbox" id="closeLightboxBtn">&times;</button>
-    <img class="lightbox-img" id="lightboxImg" src="" alt="enlarged artwork">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
+<!-- modal for video playback -->
+<div id="videoModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" id="closeModalBtn">&times;</button>
+    <video id="modalVideoPlayer" class="modal-video" controls autoplay muted loop>
+      <source src="" type="video/mp4">
+    </video>
+    <div class="modal-caption" id="modalCaption"></div>
   </div>
 </div>
 
 <script>
-  // ---- ART COLLECTION (unique artworks with categories, titles, descriptions) ----
-  const artworks = [
+  // ---------- ANIMATION PORTFOLIO DATA (CUSTOMIZABLE) ----------
+  // Each entry: video source (can be local or external demo). 
+  // For GitHub Pages, place mp4 files in "videos/" folder and use relative paths.
+  // Here we use sample public domain / demo-friendly clips from "sample videos" (short loops)
+  // To make it functional without external hosting, we use inline example videos from placeholder sources
+  // But you can replace with your own .mp4 links.
+  const animations = [
     {
       id: 1,
-      title: "Whispers of Obsidian",
-      category: "digital",
-      description: "Generative composition, 4K looping narrative — volcanic textures meet neural brushstrokes.",
-      image: "https://picsum.photos/id/104/500/400",   // landscape with dramatic rock
-      alt: "abstract obsidian landscape"
+      title: "ECHOES OF LIGHT",
+      category: "2D",
+      description: "Hand-drawn rotoscope experiment, 60fps loop — exploration of light refraction.",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
     },
     {
       id: 2,
-      title: "Fossilized Memory",
-      category: "mixed media",
-      description: "Charcoal & resin on canvas, 80x100cm — layers of erased time.",
-      image: "https://picsum.photos/id/96/500/400",
-      alt: "mixed media monochrome"
+      title: "METAMORPH",
+      category: "3D",
+      description: "Blender cycles, surreal transformation of organic geometry.",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
     },
     {
       id: 3,
-      title: "Electric Pollen",
-      category: "digital",
-      description: "Digital painting, vibrant particles floating in electromagnetic fields.",
-      image: "https://picsum.photos/id/29/500/400",
-      alt: "colorful digital pollen"
+      title: "RHYTHM ZERO",
+      category: "motion graphics",
+      description: "Abstract typographic animation with dynamic music sync.",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4"
     },
     {
       id: 4,
-      title: "The Geometry of Grief",
-      category: "drawing",
-      description: "Ink and graphite, fragmented architecture of emotion. 2023 series.",
-      image: "https://picsum.photos/id/42/500/400",
-      alt: "ink drawing abstract"
+      title: "LOST TAPESTRY",
+      category: "2D",
+      description: "Frame by frame charcoal animation, poetic narrative short (excerpt).",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
     },
     {
       id: 5,
-      title: "Lava Lullabies",
-      category: "painting",
-      description: "Oil on linen, deep crimson and gold — eruption as tenderness.",
-      image: "https://picsum.photos/id/22/500/400",
-      alt: "volcanic painting"
+      title: "KINETIC SCULPTURE",
+      category: "3D",
+      description: "Procedural geometry nodes, real-time simulated particles.",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4"
     },
     {
       id: 6,
-      title: "Reverie Engine",
-      category: "mixed media",
-      description: "Collage + digital intervention, archival print on handmade paper.",
-      image: "https://picsum.photos/id/169/500/400",
-      alt: "dream collage"
-    },
-    {
-      id: 7,
-      title: "Myth of the Seam",
-      category: "digital",
-      description: "Algorithmic textile simulation, infinite weave of data threads.",
-      image: "https://picsum.photos/id/36/500/400",
-      alt: "digital textile"
-    },
-    {
-      id: 8,
-      title: "Night Soil Bloom",
-      category: "painting",
-      description: "Acrylic & pastel on wood, 70x90cm — growth in decay.",
-      image: "https://picsum.photos/id/127/500/400",
-      alt: "bloom painting"
+      title: "NEON DRIFTER",
+      category: "motion graphics",
+      description: "Vaporwave inspired loop, after effects + cell shading.",
+      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCar.mp4"
     }
   ];
 
-  // extract unique categories for filter buttons
-  function getUniqueCategories() {
-    const cats = artworks.map(a => a.category);
+  // unique categories
+  function getUniqueCats() {
+    const cats = animations.map(a => a.category);
     return ['all', ...new Set(cats)];
   }
 
   let currentFilter = 'all';
+  let currentAnimations = [...animations];
 
-  // render gallery based on current filter
+  // render gallery grid with videos
   function renderGallery() {
     const galleryContainer = document.getElementById('galleryGrid');
     const filtered = currentFilter === 'all' 
-      ? artworks 
-      : artworks.filter(art => art.category === currentFilter);
+      ? animations 
+      : animations.filter(anim => anim.category.toLowerCase() === currentFilter.toLowerCase());
     
     if(filtered.length === 0) {
-      galleryContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">✨ no pieces in this realm — explore another category ✨</div>`;
+      galleryContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">✨ no animations match — try another category ✨</div>`;
       return;
     }
     
-    galleryContainer.innerHTML = filtered.map(art => `
-      <div class="art-card" data-id="${art.id}">
-        <img class="art-img" src="${art.image}" alt="${art.alt}" loading="lazy">
-        <div class="art-info">
-          <div class="art-title">
-            <span>${art.title}</span>
-            <span class="art-category">${art.category}</span>
+    galleryContainer.innerHTML = filtered.map(anim => `
+      <div class="anim-card" data-id="${anim.id}">
+        <div class="video-wrapper">
+          <video class="anim-video" muted loop playsinline preload="metadata">
+            <source src="${anim.videoSrc}" type="video/mp4">
+          </video>
+          <div class="play-overlay"><i class="fas fa-expand"></i> preview</div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">
+            <span>${anim.title}</span>
+            <span class="card-cat">${anim.category}</span>
           </div>
-          <div class="art-description">${art.description}</div>
+          <div class="card-desc">${anim.description}</div>
         </div>
       </div>
     `).join('');
-    
-    // attach click event listeners to each card for lightbox
-    document.querySelectorAll('.art-card').forEach(card => {
+
+    // attach hover video play/pause for micro-interaction (unique animation preview)
+    document.querySelectorAll('.anim-card').forEach(card => {
+      const videoEl = card.querySelector('.anim-video');
+      if(videoEl) {
+        card.addEventListener('mouseenter', () => {
+          videoEl.play().catch(e => console.log("autoplay blocked, hover interaction fine"));
+        });
+        card.addEventListener('mouseleave', () => {
+          videoEl.pause();
+          videoEl.currentTime = 0;
+        });
+      }
+      // modal open on click
       card.addEventListener('click', (e) => {
-        // prevent bubbling if inner elements but it's fine
         const id = parseInt(card.getAttribute('data-id'));
-        const artwork = artworks.find(a => a.id === id);
-        if(artwork) openLightbox(artwork);
+        const anim = animations.find(a => a.id === id);
+        if(anim) openVideoModal(anim);
       });
     });
   }
-  
-  // lightbox logic
-  const lightboxEl = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxCaption = document.getElementById('lightboxCaption');
-  
-  function openLightbox(art) {
-    lightboxImg.src = art.image;
-    lightboxCaption.innerHTML = `${art.title} — ${art.category} / ${art.description}`;
-    lightboxEl.classList.add('active');
+
+  // modal handler
+  const modal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideoPlayer');
+  const modalCaptionSpan = document.getElementById('modalCaption');
+
+  function openVideoModal(anim) {
+    modalVideo.src = anim.videoSrc;
+    modalCaptionSpan.innerText = `${anim.title} — ${anim.category} / ${anim.description}`;
+    modal.classList.add('active');
+    modalVideo.load();
+    modalVideo.play().catch(e => console.log("autoplay blocked"));
     document.body.style.overflow = 'hidden';
   }
-  
-  function closeLightbox() {
-    lightboxEl.classList.remove('active');
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modalVideo.pause();
+    modalVideo.src = '';
     document.body.style.overflow = '';
   }
-  
-  // dynamic filter buttons creation
-  function buildFilterButtons() {
-    const filterBar = document.getElementById('filterBar');
-    const categories = getUniqueCategories();
-    filterBar.innerHTML = categories.map(cat => `
-      <button class="filter-btn ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}">
-        <i class="fas ${cat === 'all' ? 'fa-layer-group' : (cat === 'digital' ? 'fa-laptop-code' : (cat === 'painting' ? 'fa-palette' : (cat === 'drawing' ? 'fa-pencil-ruler' : 'fa-object-group')))}"></i>
-        ${cat === 'all' ? 'ALL WORKS' : cat.toUpperCase()}
-      </button>
+
+  // build filter chips
+  function buildFilters() {
+    const filterContainer = document.getElementById('filterBar');
+    const categories = getUniqueCats();
+    filterContainer.innerHTML = categories.map(cat => `
+      <div class="filter-chip ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}">
+        <i class="fas ${cat === 'all' ? 'fa-film' : (cat === '2D' ? 'fa-pen-fancy' : (cat === '3D' ? 'fa-cube' : 'fa-chart-line'))}"></i>
+        ${cat === 'all' ? 'ALL REELS' : cat.toUpperCase()}
+      </div>
     `).join('');
     
-    // add event listeners
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const filterValue = btn.getAttribute('data-filter');
-        if(filterValue === currentFilter) return;
-        currentFilter = filterValue;
-        // update active state UI
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        const filterVal = chip.getAttribute('data-filter');
+        if(filterVal === currentFilter) return;
+        currentFilter = filterVal;
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
         renderGallery();
-        // optional smooth scroll to gallery after filter (gentle)
         document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
   }
-  
-  // navigation smooth scroll
-  function setupNav() {
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
+
+  // Showreel button (watch featured showreel)
+  function setupShowreel() {
+    const btn = document.getElementById('showreelBtn');
+    if(btn) {
+      btn.addEventListener('click', () => {
+        // demo showreel: use first animation as a placeholder or external link
+        const demoReel = {
+          title: "SHOWREEL 2025 - MOTION CANVAS",
+          category: "reel",
+          description: "Collection of best works: 2D/3D & motion experiments",
+          videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCar.mp4"
+        };
+        openVideoModal(demoReel);
+      });
+    }
+  }
+
+  // dynamic text role (animation)
+  const roles = ["2D Animator", "Motion Designer", "Frame Weaver", "Visual Storyteller"];
+  let idx = 0;
+  function animateRole() {
+    const roleSpan = document.getElementById('dynamicRole');
+    if(roleSpan) {
+      roleSpan.textContent = roles[idx % roles.length];
+      idx++;
+      setTimeout(animateRole, 2000);
+    }
+  }
+
+  // smooth nav
+  function navScroll() {
+    document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const target = link.getAttribute('data-nav');
-        if(target === 'gallery') {
-          document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if(target === 'about') {
-          document.getElementById('aboutSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if(target === 'contact') {
-          document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        if(target === 'gallery') document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if(target === 'reel') document.getElementById('reelSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if(target === 'contact') document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
   }
-  
-  // custom cursor effect for dynamic background radial (subtle)
-  function initCursorGlow() {
-    document.body.addEventListener('mousemove', (e) => {
-      const x = e.clientX / window.innerWidth * 100;
-      const y = e.clientY / window.innerHeight * 100;
-      document.body.style.setProperty('--x', `${x}%`);
-      document.body.style.setProperty('--y', `${y}%`);
-    });
+
+  // ---- CURSOR TRAIL ANIMATION (canvas effect) ----
+  const canvas = document.getElementById('cursorCanvas');
+  const ctx = canvas.getContext('2d');
+  let trail = [];
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
   
-  // randomize masonry-like feel: just extra touch
-  // (no extra library, but gallery css grid already flexible)
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    trail.push({ x: mouseX, y: mouseY, alpha: 0.8 });
+    if(trail.length > 20) trail.shift();
+  });
   
-  // add a lazy preload and also add extra unique "spotlight" effect on load
-  function addArtworkStats() {
-    // just dynamic additional flavor: update about stats with total pieces count
-    const statNumbers = document.querySelectorAll('.stat-number');
-    if(statNumbers.length) {
-      // find the first .stat-number showing pieces? Actually modify stats to show piece count
-      // but no need to break design - we update last one maybe optional but nice.
-      const totalWorksSpan = document.createElement('div');
-      // subtle but keep original integrity: add little extra flair in existing stats area:
-      const statsDiv = document.querySelector('.stats');
-      if(statsDiv && !statsDiv.querySelector('.extra-piece-count')) {
-        const pieceInfo = document.createElement('div');
-        pieceInfo.style.marginTop = '1rem';
-        pieceInfo.innerHTML = `<span style="color:#f2c94c; font-weight:bold;">${artworks.length}</span> original pieces`;
-        pieceInfo.classList.add('extra-piece-count');
-        statsDiv.appendChild(pieceInfo);
-      }
+  function drawTrail() {
+    if(!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(let i = 0; i < trail.length; i++) {
+      const p = trail[i];
+      const size = 6 * (i / trail.length);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 130, 100, ${p.alpha * 0.4})`;
+      ctx.fill();
+      p.alpha -= 0.02;
     }
+    trail = trail.filter(p => p.alpha > 0);
+    requestAnimationFrame(drawTrail);
   }
+  drawTrail();
   
-  // scroll reveal animation (simple)
-  function observeCards() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.art-card').forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'opacity 0.5s ease, transform 0.4s ease';
-      observer.observe(card);
-    });
-  }
-  
-  // after rendering re-observe
-  const originalRender = renderGallery;
-  renderGallery = function() {
-    originalRender();
-    setTimeout(() => {
-      document.querySelectorAll('.art-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        // re-run observer
-        const obs = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if(entry.isIntersecting) {
-              entry.target.style.opacity = '1';
-              entry.target.style.transform = 'translateY(0)';
-              obs.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        obs.observe(card);
-      });
-    }, 20);
-  };
-  
-  // event listener for closing lightbox
-  function bindLightboxEvents() {
-    const closeBtn = document.getElementById('closeLightboxBtn');
-    closeBtn.addEventListener('click', closeLightbox);
-    lightboxEl.addEventListener('click', (e) => {
-      if(e.target === lightboxEl) closeLightbox();
-    });
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape' && lightboxEl.classList.contains('active')) {
-        closeLightbox();
-      }
-    });
-  }
-  
-  // initialise all
+  // modal close events
+  document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if(e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  // init all
   function init() {
-    buildFilterButtons();
+    buildFilters();
     renderGallery();
-    setupNav();
-    initCursorGlow();
-    bindLightboxEvents();
-    addArtworkStats();
-    // small style: ensure hero image placeholders from picsum but they are beautiful placeholder
-    // add additional uniqueness: decorative line
-    const styleDecor = document.createElement('style');
-    styleDecor.textContent = `.art-card { transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1); } .filter-btn i { margin-right: 5px; }`;
-    document.head.appendChild(styleDecor);
+    navScroll();
+    setupShowreel();
+    animateRole();
+    // auto preload interactions on cards
   }
-  
   init();
 </script>
 </body>
